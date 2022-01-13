@@ -1,0 +1,1 @@
+alter table conta add nome varchar (255) null;
