@@ -1,7 +1,7 @@
 package br.com.desafio.pub.entidades;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ import br.com.desafio.pub.tipos.TipoDespesa;
  */
 
 @Entity
-@Table(name = "despesa")
+@Table(name = "despesas")
 public class Despesa {
 	
 	@Id
@@ -35,10 +35,10 @@ public class Despesa {
 	private BigDecimal valor;
 	
 	@Column(name = "datapagamento", nullable = false)
-	private Date dataPagamento;
+	private LocalDate dataPagamento;
 	
 	@Column(name = "datapagamentoesperado", nullable = false)
-	private Date dataPagamentoEspePrado;
+	private LocalDate dataPagamentoEsperado;
 	
 	@ManyToOne
 	@JoinColumn(name = "contaid", nullable = false)
@@ -48,13 +48,13 @@ public class Despesa {
 	@Column(name = "tipodespesa", nullable = false)
 	private TipoDespesa tipoDespesa;
 
-	public Despesa(Integer id, BigDecimal valor, Date dataPagamento, Date dataPagamentoEsperado, Conta conta,
+	public Despesa(Integer id, BigDecimal valor, LocalDate dataPagamento, LocalDate dataPagamentoEsperado, Conta conta,
 			TipoDespesa tipoDespesa) {
 		super();
 		this.id = id;
 		this.valor = valor;
 		this.dataPagamento = dataPagamento;
-		this.dataPagamentoEspePrado = dataPagamentoEsperado;
+		this.dataPagamentoEsperado = dataPagamentoEsperado;
 		this.conta = conta;
 		this.tipoDespesa = tipoDespesa;
 	}
@@ -78,20 +78,20 @@ public class Despesa {
 		this.valor = valor;
 	}
 
-	public Date getDataPagamento() {
+	public LocalDate getDataPagamento() {
 		return dataPagamento;
 	}
 
-	public void setDataPagamento(Date dataPagamento) {
+	public void setDataPagamento(LocalDate dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
 
-	public Date getDataPagamentoEspePrado() {
-		return dataPagamentoEspePrado;
+	public LocalDate getDataPagamentoEsperado() {
+		return dataPagamentoEsperado;
 	}
 
-	public void setDataPagamentoEspePrado(Date dataPagamentoEspePrado) {
-		this.dataPagamentoEspePrado = dataPagamentoEspePrado;
+	public void setDataPagamentoEsperado(LocalDate dataPagamentoEsperado) {
+		this.dataPagamentoEsperado = dataPagamentoEsperado;
 	}
 
 	public Conta getConta() {

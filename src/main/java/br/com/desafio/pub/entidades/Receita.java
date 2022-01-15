@@ -1,7 +1,7 @@
 package br.com.desafio.pub.entidades;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ import br.com.desafio.pub.tipos.TipoReceita;
  */
 
 @Entity
-@Table(name = "receita")
+@Table(name = "receitas")
 public class Receita {
 	
 	@Id
@@ -35,10 +35,10 @@ public class Receita {
 	private BigDecimal valor;
 	
 	@Column(name = "datarecebimento", nullable = false)
-	private Date dataRecebimento;
+	private LocalDate dataRecebimento;
 	
 	@Column(name = "datarecebimentoesperado", nullable = false)
-	private Date dataRecebimentoEsperado;
+	private LocalDate dataRecebimentoEsperado;
 	
 	@Column(name = "descricao", nullable = false)
 	private String descricao;
@@ -51,7 +51,7 @@ public class Receita {
 	@Column(name = "tiporeceita", nullable = false)
 	private TipoReceita tipoReceita;
 	
-	public Receita(Integer id, BigDecimal valor, Date dataRecebimento, Date dataRecebimentoEsperado, String descricao, Conta conta, TipoReceita tipoReceita ) {
+	public Receita(Integer id, BigDecimal valor, LocalDate dataRecebimento, LocalDate dataRecebimentoEsperado, String descricao, Conta conta, TipoReceita tipoReceita ) {
 		super ();
 		this.id = id;
 		this.valor = valor;
@@ -77,16 +77,16 @@ public class Receita {
 		public void setValor(BigDecimal valor) {
 			this.valor = valor;
 		}
-		public Date getDataRecebimento() {
+		public LocalDate getDataRecebimento() {
 			return dataRecebimento;
 		}
-		public void setDataRecebimento(Date dataRecebimento) {
+		public void setDataRecebimento(LocalDate dataRecebimento) {
 			this.dataRecebimento = dataRecebimento;
 		}
-		public Date getDataRecebimentoEsperado() {
+		public LocalDate getDataRecebimentoEsperado() {
 			return dataRecebimentoEsperado;
 		}
-		public void setDataRecebimentoEsperado(Date dataRecebimentoEsperado) {
+		public void setDataRecebimentoEsperado(LocalDate dataRecebimentoEsperado) {
 			this.dataRecebimentoEsperado = dataRecebimentoEsperado;
 		}
 		public String getDescricao() {

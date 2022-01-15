@@ -1,5 +1,7 @@
 package br.com.desafio.pub.controlador;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.desafio.pub.entidades.Receita;
+import br.com.desafio.pub.entidades.dto.ReceitaDTO;
 import br.com.desafio.pub.servicos.ReceitaServico;
 
 @RestController
@@ -34,5 +37,10 @@ public class ReceitaControlador {
 	@DeleteMapping("receita/{id}")
 	public void excluir(@PathVariable Integer id) {
 		servico.excluir(id);
+	}
+	
+	@GetMapping("receita/buscarPorPeriodo")
+	public List<Receita> buscarPorPeriodo(@RequestBody ReceitaDTO receitaFiltros) throws Exception{
+		return servico.listar(receitaFiltros);
 	}
 }

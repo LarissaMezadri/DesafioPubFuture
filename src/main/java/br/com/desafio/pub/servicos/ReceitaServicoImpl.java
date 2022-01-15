@@ -1,16 +1,13 @@
 package br.com.desafio.pub.servicos;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.desafio.pub.entidades.Conta;
 import br.com.desafio.pub.entidades.Receita;
+import br.com.desafio.pub.entidades.dto.ReceitaDTO;
 import br.com.desafio.pub.repositorio.ReceitaRepositorio;
-import br.com.desafio.pub.tipos.TipoReceita;
 import lombok.AllArgsConstructor;
 
 /**
@@ -40,9 +37,15 @@ public class ReceitaServicoImpl implements ReceitaServico {
 	}
 
 	@Override
-	public List<Receita> listar(BigDecimal valor, Date dataRecebimento, Date dataRecebimentoEsperado,
-			TipoReceita tipoReceita, Conta conta) {
-		return repositorio.findAll();
+	public List<Receita> listar(ReceitaDTO receitaFiltros) throws Exception {
+		if (receitaFiltros.getContaId()== null) {
+			throw new Exception("Você precisa informar uma conta");
+		}
+		if (receitaFiltros.getDataInicial()!= null && receitaFiltros.getDataFinal()!= null 
+				&& receitaFiltros.getDataInicial().isAfter(receitaFiltros.getDataFinal())) {
+			throw new Exception("A data inicial não pode ser maior que a data final");
+		}
+		return repositorio.buscarPorPeriodo(receitaFiltros.getContaId(), receitaFiltros.getDataInicial(), receitaFiltros.getDataFinal());
 	}
 
 	@Override

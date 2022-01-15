@@ -1,12 +1,9 @@
 package br.com.desafio.pub.servicos;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
-import br.com.desafio.pub.entidades.Conta;
 import br.com.desafio.pub.entidades.Receita;
-import br.com.desafio.pub.tipos.TipoReceita;
+import br.com.desafio.pub.entidades.dto.ReceitaDTO;
 
 public interface ReceitaServico {
 
@@ -20,8 +17,7 @@ public interface ReceitaServico {
 
 	void excluir(Integer id);
 
-	List<Receita> listar(BigDecimal valor, Date dataRecebimento, Date dataRecebimentoEsperado, TipoReceita tipoReceita,
-			Conta conta);
+	List<Receita> listar(ReceitaDTO receitaFiltros)throws Exception;
 
 	Receita buscarPorId(Integer id);
 
