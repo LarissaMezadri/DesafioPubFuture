@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.desafio.pub.entidades.Conta;
@@ -48,5 +49,12 @@ public class ContaControlador {
 	@GetMapping("conta/buscarSaldoConta/{id}")
 	public BigDecimal buscarSaldoConta(@PathVariable Integer id) throws Exception {
 		return servico.buscarSaldoConta(id);
+	}
+	@PostMapping("conta/transferir")
+	public boolean transferir(@RequestParam(name = "idContaPagadora") Integer idContaPagadora, 
+							  @RequestParam(name = "idContaRecebedora") Integer idContaRecebedora, 
+							  @RequestParam(name = "valor") BigDecimal valorTransferir ) throws Exception{
+		servico.tranferirSaldo(idContaPagadora, valorTransferir, idContaRecebedora);
+		return true;
 	}
 }

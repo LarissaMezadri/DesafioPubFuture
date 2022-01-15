@@ -21,6 +21,8 @@ public interface ContaServico {
 	
 	BigDecimal buscarSaldoConta(Integer id) throws Exception;
 	
+	boolean tranferirSaldo(Integer idContaPagadora, BigDecimal valorTransferir, Integer idContaRecebedora) throws Exception;
+	
 	Conta buscarPorId(Integer id);
 	
 }
