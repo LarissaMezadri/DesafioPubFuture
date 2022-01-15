@@ -16,15 +16,42 @@ public interface ReceitaServico {
 	 * @throws Exception 
 	 */
 	Receita salvar(Receita receita) throws Exception;
-
+	
+	/**
+	 * Exclui uma receita
+	 * @param id
+	 */
 	void excluir(Integer id);
-
+	
+	/**
+	 * Lista uma receita por periodo data inicial e data final
+	 * @param receitaFiltros
+	 * @return
+	 * @throws Exception
+	 */
 	List<Receita> buscarPorPeriodo(ReceitaDTO receitaFiltros)throws Exception;
 	
+	/**
+	 * Lista uma receita por tipo de receita 
+	 * @param receitaFiltros
+	 * @return
+	 * @throws Exception
+	 */
 	List<Receita> buscarPorTipo(ReceitaDTO receitaFiltros)throws Exception;
 	
+	/**
+	 * Busca 
+	 * @param id
+	 * @returno total de receitas
+	 * @throws Exception
+	 */
 	BigDecimal buscarTotalPorConta(Integer id)throws Exception;
-
+	
+	/**
+	 * Busca uma receita
+	 * @param id
+	 * @return
+	 */
 	Receita buscarPorId(Integer id);
 
 }
