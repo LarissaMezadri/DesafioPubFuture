@@ -1,5 +1,8 @@
 package br.com.desafio.pub.controlador;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.desafio.pub.entidades.Conta;
+import br.com.desafio.pub.entidades.dto.ContaDTO;
 import br.com.desafio.pub.servicos.ContaServico;
 
 @RestController
@@ -36,6 +40,13 @@ public class ContaControlador {
 		servico.excluir(id);
 	}
 	
+	@GetMapping("conta/buscarPorFiltros")
+	public List<Conta> buscarPorFiltros(@RequestBody ContaDTO contaFiltros) throws Exception{
+		return servico.buscarPorFiltros(contaFiltros);
+	}
 	
-
+	@GetMapping("conta/buscarSaldoConta/{id}")
+	public BigDecimal buscarSaldoConta(@PathVariable Integer id) throws Exception {
+		return servico.buscarSaldoConta(id);
+	}
 }

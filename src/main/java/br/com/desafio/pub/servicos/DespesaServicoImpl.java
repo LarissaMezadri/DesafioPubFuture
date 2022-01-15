@@ -1,16 +1,14 @@
 package br.com.desafio.pub.servicos;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.desafio.pub.entidades.Conta;
 import br.com.desafio.pub.entidades.Despesa;
+import br.com.desafio.pub.entidades.dto.DespesaDTO;
 import br.com.desafio.pub.repositorio.DespesaRepositorio;
-import br.com.desafio.pub.tipos.TipoDespesa;
 import lombok.AllArgsConstructor;
 
 /**
@@ -28,8 +26,19 @@ public class DespesaServicoImpl implements DespesaServico {
 	private DespesaRepositorio repositorio;
 
 	@Override
-	public Despesa salvar(Despesa despesa) {
+	public Despesa salvar(Despesa despesa) throws Exception {
+		validarAlteracaoDespesa(despesa);
 		return repositorio.save(despesa);
+	}
+
+	public void validarAlteracaoDespesa(Despesa despesa) throws Exception {
+		if (despesa.getId() != null) {
+			Despesa despesaSalva = repositorio.findById(despesa.getId()).orElse(null);
+			if (despesa.getValor() != despesaSalva.getValor()) {
+				throw new Exception("Você não pode alterar o valor de uma despesa que já está cadastrada");
+			}
+		}
+
 	}
 
 	@Override
@@ -39,14 +48,37 @@ public class DespesaServicoImpl implements DespesaServico {
 	}
 
 	@Override
-	public List<Despesa> listar(BigDecimal valor, Date dataPagamento, Date dataPagamentoEsperado,
-			TipoDespesa tipoDespesa, Conta conta) {
-		return repositorio.findAll();
+	public List<Despesa> buscarPorPeriodo(DespesaDTO despesaFiltros) throws Exception {
+		if (despesaFiltros.getContaId() == null) {
+			throw new Exception("Você precisa informar uma conta");
+		}
+		if (despesaFiltros.getDataInicial() != null && despesaFiltros.getDataFinal() != null
+				&& despesaFiltros.getDataInicial().isAfter(despesaFiltros.getDataFinal())) {
+			throw new Exception("A data inicial não pode ser maior que a data final");
+		}
+		return repositorio.buscarPorPeriodo(despesaFiltros.getContaId(), despesaFiltros.getDataInicial(),
+				despesaFiltros.getDataFinal());
+	}
+
+	@Override
+	public List<Despesa> buscarPorTipo(DespesaDTO despesaFiltros) throws Exception {
+		if (despesaFiltros.getContaId() == null) {
+			throw new Exception("Você precisa informar uma conta");
+		}
+		return repositorio.buscarPorTipo(despesaFiltros.getContaId(), despesaFiltros.getTipoDespesa());
+	}
+
+	@Override
+	public BigDecimal buscarTotalPorConta(Integer id) throws Exception {
+		if (id == null) {
+			throw new Exception("Você precisa informar uma conta");
+		}
+		return repositorio.buscarTotalPorConta(id);
 	}
 
 	@Override
 	public Despesa buscarPorId(Integer id) {
 		return repositorio.findById(id).orElse(null);
-		
+
 	}
 }

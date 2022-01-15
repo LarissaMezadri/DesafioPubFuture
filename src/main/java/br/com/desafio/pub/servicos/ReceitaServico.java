@@ -1,5 +1,6 @@
 package br.com.desafio.pub.servicos;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import br.com.desafio.pub.entidades.Receita;
@@ -12,12 +13,17 @@ public interface ReceitaServico {
 	 * 
 	 * @param receita
 	 * @return nova receita
+	 * @throws Exception 
 	 */
-	Receita salvar(Receita receita);
+	Receita salvar(Receita receita) throws Exception;
 
 	void excluir(Integer id);
 
-	List<Receita> listar(ReceitaDTO receitaFiltros)throws Exception;
+	List<Receita> buscarPorPeriodo(ReceitaDTO receitaFiltros)throws Exception;
+	
+	List<Receita> buscarPorTipo(ReceitaDTO receitaFiltros)throws Exception;
+	
+	BigDecimal buscarTotalPorConta(Integer id)throws Exception;
 
 	Receita buscarPorId(Integer id);
 

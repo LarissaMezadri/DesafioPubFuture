@@ -1,9 +1,10 @@
 package br.com.desafio.pub.servicos;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import br.com.desafio.pub.entidades.Conta;
-import br.com.desafio.pub.tipos.TipoConta;
+import br.com.desafio.pub.entidades.dto.ContaDTO;
 
 public interface ContaServico {
 
@@ -16,7 +17,9 @@ public interface ContaServico {
 
 	void excluir(Integer id);
 	
-	List<Conta> listar(String nome, TipoConta tipoConta, String instituicaoFinanceira);
+	List<Conta> buscarPorFiltros(ContaDTO contaFiltros);
+	
+	BigDecimal buscarSaldoConta(Integer id) throws Exception;
 	
 	Conta buscarPorId(Integer id);
 	

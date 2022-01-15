@@ -1,5 +1,6 @@
 package br.com.desafio.pub.controlador;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ReceitaControlador {
 	}
 
 	@PostMapping("receita")
-	public Receita salvar(@RequestBody Receita receita) {
+	public Receita salvar(@RequestBody Receita receita) throws Exception {
 		return servico.salvar(receita);
 	}
 
@@ -41,6 +42,16 @@ public class ReceitaControlador {
 	
 	@GetMapping("receita/buscarPorPeriodo")
 	public List<Receita> buscarPorPeriodo(@RequestBody ReceitaDTO receitaFiltros) throws Exception{
-		return servico.listar(receitaFiltros);
+		return servico.buscarPorPeriodo(receitaFiltros);
+	}
+	
+	@GetMapping("receita/buscarPorTipo")
+	public List<Receita> buscarPorTipo(@RequestBody ReceitaDTO receitaFiltros) throws Exception {
+		return servico.buscarPorTipo(receitaFiltros);
+	}
+	
+	@GetMapping("receita/buscarTotalPorConta/{id}")
+	public BigDecimal buscarTotalPorConta(@PathVariable Integer id) throws Exception {
+		return servico.buscarTotalPorConta(id);
 	}
 }

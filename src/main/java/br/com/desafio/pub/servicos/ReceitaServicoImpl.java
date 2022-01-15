@@ -1,5 +1,6 @@
 package br.com.desafio.pub.servicos;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,18 @@ public class ReceitaServicoImpl implements ReceitaServico {
 	private ReceitaRepositorio repositorio;
 
 	@Override
-	public Receita salvar(Receita receita) {
+	public Receita salvar(Receita receita) throws Exception {
+		validarAlteracaoReceita(receita);
 		return repositorio.save(receita);
+	}
+	
+	public void validarAlteracaoReceita (Receita receita) throws Exception {
+		if (receita.getId() != null ) {
+			Receita receitaSalva = repositorio.findById(receita.getId()).orElse(null);
+			if (receita.getValor() != receitaSalva.getValor()) {
+				throw new Exception("Você não pode alterar o valor de uma receita que já está cadastrada");
+			}
+		}
 	}
 
 	@Override
@@ -37,20 +48,37 @@ public class ReceitaServicoImpl implements ReceitaServico {
 	}
 
 	@Override
-	public List<Receita> listar(ReceitaDTO receitaFiltros) throws Exception {
-		if (receitaFiltros.getContaId()== null) {
+	public List<Receita> buscarPorPeriodo(ReceitaDTO receitaFiltros) throws Exception {
+		if (receitaFiltros.getContaId() == null) {
 			throw new Exception("Você precisa informar uma conta");
 		}
-		if (receitaFiltros.getDataInicial()!= null && receitaFiltros.getDataFinal()!= null 
+		if (receitaFiltros.getDataInicial() != null && receitaFiltros.getDataFinal() != null
 				&& receitaFiltros.getDataInicial().isAfter(receitaFiltros.getDataFinal())) {
 			throw new Exception("A data inicial não pode ser maior que a data final");
 		}
-		return repositorio.buscarPorPeriodo(receitaFiltros.getContaId(), receitaFiltros.getDataInicial(), receitaFiltros.getDataFinal());
+		return repositorio.buscarPorPeriodo(receitaFiltros.getContaId(), receitaFiltros.getDataInicial(),
+				receitaFiltros.getDataFinal());
+	}
+
+	@Override
+	public List<Receita> buscarPorTipo(ReceitaDTO receitaFiltros) throws Exception {
+		if (receitaFiltros.getContaId() == null) {
+			throw new Exception("Você precisa informar uma conta");
+		}
+		return repositorio.buscarPorTipo(receitaFiltros.getContaId(), receitaFiltros.getTipoReceita());
 	}
 
 	@Override
 	public Receita buscarPorId(Integer id) {
 		return repositorio.findById(id).orElse(null);
+	}
+
+	@Override
+	public BigDecimal buscarTotalPorConta(Integer id) throws Exception {
+		if (id == null) {
+			throw new Exception("Você precisa informar uma conta");
+		}
+		return repositorio.buscarTotalPorConta(id);
 	}
 
 }
