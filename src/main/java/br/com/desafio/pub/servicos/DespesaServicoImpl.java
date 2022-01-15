@@ -34,7 +34,7 @@ public class DespesaServicoImpl implements DespesaServico {
 	public void validarAlteracaoDespesa(Despesa despesa) throws Exception {
 		if (despesa.getId() != null) {
 			Despesa despesaSalva = repositorio.findById(despesa.getId()).orElse(null);
-			if (despesa.getValor() != despesaSalva.getValor()) {
+			if (!despesa.getValor().equals(despesaSalva.getValor())) {
 				throw new Exception("Você não pode alterar o valor de uma despesa que já está cadastrada");
 			}
 		}

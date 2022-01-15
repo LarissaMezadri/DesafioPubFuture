@@ -35,7 +35,7 @@ public class ReceitaServicoImpl implements ReceitaServico {
 	public void validarAlteracaoReceita (Receita receita) throws Exception {
 		if (receita.getId() != null ) {
 			Receita receitaSalva = repositorio.findById(receita.getId()).orElse(null);
-			if (receita.getValor() != receitaSalva.getValor()) {
+			if (!receita.getValor().equals(receitaSalva.getValor())) {
 				throw new Exception("Você não pode alterar o valor de uma receita que já está cadastrada");
 			}
 		}
